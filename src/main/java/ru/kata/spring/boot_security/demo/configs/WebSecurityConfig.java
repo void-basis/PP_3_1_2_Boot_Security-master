@@ -36,13 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    // метод аутентификации - вместо ин мемори
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
     }
 
-    // кидируем пароль -можно без тогда возвращаем
+    // кидируем пароль -можно без
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
