@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         User user = dao.findByUsername(username);       //username == email
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found bich!!!");
+            throw new UsernameNotFoundException("User not found bitch!!!");
         }
 
         return user;

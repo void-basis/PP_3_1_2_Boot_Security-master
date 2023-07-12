@@ -1,11 +1,17 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -29,11 +35,23 @@ public class UserDaoImp implements UserDao {
     public void updateUser(User user) {
         entityManager.merge(user);
     }
-
-    @Override
+   // @Query("Select user from User user left join fetch user.roles where user.email=:email")
     public User findByUsername(String email) {
-        return entityManager.find(User.class, email);
-    }
+//        return entityManager.find(User.class, email);
+            CriteriaQuery<User> criteriaQuery = entityManager.getCriteriaBuilder().createQuery(User.class);
+            Root<User> userRequest = criteriaQuery.from(User.class);
+
+            Expression<String> exp = userRequest.get("email");
+            Predicate predicate = exp.in(email);
+
+            criteriaQuery.where(predicate);
+            try {
+                return entityManager.createQuery(criteriaQuery).getSingleResult();
+            } catch (NoResultException e) {
+                return new User();
+            }
+        }
+
 
     @Override
     public void deleteUserById(long id) {
