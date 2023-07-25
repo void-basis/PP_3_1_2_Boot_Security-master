@@ -8,7 +8,7 @@
 <body>
 <div>
     <br><br><br><br><br>
-    <form th:method="Post" th:action="@{/userUpdate}" th:object="${userUpdate}">
+    <form th:method="Post" th:action="@{/admin/userUpdate}" th:object="${userUpdate}">
         <p><input type="hidden" name="id" th:value="${userUpdate.getId()}"></p>
         <fieldset>
             <legend>update user</legend>

@@ -9,14 +9,12 @@
 <div>
     <br><br><br><br><br>
 
-    <form th:action="@{/addUser}">
-    <input type="submit" th:value="add"/></form>
-
     <table th:border="1" align="center" cellpadding="5">
         <tr>
             <th>Name</th>
             <th>LastName</th>
             <th>eMail</th>
+            <th>roles|autorities</th>
             <th>actions</th>
 
         </tr>
@@ -24,13 +22,24 @@
             <td th:utext="${lst.getFirstName()}">...</td>
             <td th:utext="${lst.getLastName()}">...</td>
             <td th:utext="${lst.getEmail()}">...</td>
-            <td><form th:action="@{/userUpdate/{id}(id=${lst.getId()})}">
+            <td th:utext="${lst.getRoles()}">...</td>
+            <td><form th:action="@{/admin/userUpdate/{id}(id=${lst.getId()})}">
                 <input type="submit" th:value="update   "/></form>
                 <br>
-            <form th:action="@{/deleteUser/{id}(id=${lst.getId()})}">
-                <input type="submit" th:value="delete   "/></form></td>
+            <form th:action="@{/admin/deleteUser/{id}(id=${lst.getId()})}">
+                <input type="submit" th:value="delete   "/></form>
+                <br>
+                <form th:action="@{/user}">
+                    <input type="submit" th:value="showUsersInformation"/></form>
+            </td>
         </tr>
     </table>
+
+    <form th:action="@{/admin/addUser}">
+        <input type="submit" th:value="add"/></form>
+    <input align="right" type = "button" value = "logout"
+           onclick = "window.location.href = '/logout'"/>
+
 </div>
 </body>
 </html>

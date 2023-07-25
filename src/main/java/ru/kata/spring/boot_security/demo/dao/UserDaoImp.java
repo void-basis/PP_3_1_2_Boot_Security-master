@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.dao;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -35,9 +34,8 @@ public class UserDaoImp implements UserDao {
     public void updateUser(User user) {
         entityManager.merge(user);
     }
-   // @Query("Select user from User user left join fetch user.roles where user.email=:email")
+
     public User findByUsername(String email) {
-//        return entityManager.find(User.class, email);
             CriteriaQuery<User> criteriaQuery = entityManager.getCriteriaBuilder().createQuery(User.class);
             Root<User> userRequest = criteriaQuery.from(User.class);
 
@@ -51,6 +49,11 @@ public class UserDaoImp implements UserDao {
                 return new User();
             }
         }
+
+//    @Override
+//    public User getUser(String name) {
+//        return entityManager.find();
+//    }
 
 
     @Override
