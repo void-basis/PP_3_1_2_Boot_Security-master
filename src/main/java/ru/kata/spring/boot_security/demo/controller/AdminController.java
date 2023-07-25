@@ -23,6 +23,7 @@ public class AdminController {
 
     @GetMapping(value = "/users")
     public String usersPage(ModelMap model) {
+   //     model.addAttribute("usersRole", roleService.getAllRoles());
         model.addAttribute("usersList", userService.listUsers());
         return "users";
     }

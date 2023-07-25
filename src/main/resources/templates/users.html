@@ -23,13 +23,14 @@
             <td th:utext="${lst.getLastName()}">...</td>
             <td th:utext="${lst.getEmail()}">...</td>
             <td th:utext="${lst.getRoles()}">...</td>
-            <td><form th:action="@{/admin/userUpdate/{id}(id=${lst.getId()})}">
-                <input type="submit" th:value="update   "/></form>
+            <td>
+                <form th:action="@{/admin/userUpdate/{id}(id=${lst.getId()})}">
+                    <input type="submit" th:value="update   "/></form>
                 <br>
-            <form th:action="@{/admin/deleteUser/{id}(id=${lst.getId()})}">
-                <input type="submit" th:value="delete   "/></form>
+                <form th:action="@{/admin/deleteUser/{id}(id=${lst.getId()})}">
+                    <input type="submit" th:value="delete   "/></form>
                 <br>
-                <form th:action="@{/user}">
+                <form th:action="@{/user/{id}(id=${lst.getId()})}">
                     <input type="submit" th:value="showUsersInformation"/></form>
             </td>
         </tr>
@@ -37,8 +38,8 @@
 
     <form th:action="@{/admin/addUser}">
         <input type="submit" th:value="add"/></form>
-    <input align="right" type = "button" value = "logout"
-           onclick = "window.location.href = '/logout'"/>
+    <input align="right" type="button" value="logout"
+           onclick="window.location.href = '/logout'"/>
 
 </div>
 </body>
