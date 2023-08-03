@@ -5,6 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
@@ -12,6 +14,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,10 +25,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao dao;
     private final RoleDao roleDao;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     public UserServiceImpl(UserDao dao, RoleDao roleDao) {
         this.dao = dao;
         this.roleDao = roleDao;
+
     }
 
     @Override
@@ -48,6 +53,27 @@ public class UserServiceImpl implements UserService {
         dao.updateUser(user);
     }
 
+    @Override
+    public void add(User user, String role) {
+        if (role.equalsIgnoreCase("role_admin")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(3L));
+            user.setRoles(roles);
+        }
+        if (role.equalsIgnoreCase("role_user")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(2L));
+            user.setRoles(roles);
+        }
+        if (role.equalsIgnoreCase("role_user,role_admin")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(3L));
+            roles.add(roleDao.getById(2L));
+            user.setRoles(roles);
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        dao.add(user);
+    }
 
     @Override
     public void deleteUserById(long id) {
@@ -68,8 +94,8 @@ public class UserServiceImpl implements UserService {
         }
         return new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRoles());
     }
-    private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toSet());
-    }
+//    private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
+//        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toSet());
+//    }
 }
 

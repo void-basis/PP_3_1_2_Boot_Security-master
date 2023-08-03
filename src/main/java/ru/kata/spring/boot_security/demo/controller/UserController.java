@@ -21,8 +21,8 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping(value = "/user/{id}")
-    public String userPage(ModelMap model, Principal principal, @PathVariable("id") long id) {
+    @GetMapping(value = "/user")
+    public String userPage(ModelMap model, Principal principal) {
         model.addAttribute("user", (ru.kata.spring.boot_security.demo.model.User) userService.loadUserByUsername(principal.getName()));
         return "user";
     }

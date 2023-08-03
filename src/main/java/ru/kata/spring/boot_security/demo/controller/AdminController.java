@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/admin")
+//@RequestMapping("/admin")
 public class AdminController {
 
     public final UserService userService;
@@ -21,40 +21,46 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "/admin/users")
     public String usersPage(ModelMap model) {
-   //     model.addAttribute("usersRole", roleService.getAllRoles());
         model.addAttribute("usersList", userService.listUsers());
         return "users";
     }
 
-    @GetMapping(value = "/addUser")
+    @GetMapping(value = "/admin/addUser")
     public String addUser(ModelMap model) {
         model.addAttribute("addUser", new User());
         return "addUser";
     }
 
-    @PostMapping("/users")
-    public String create(@ModelAttribute("addUser") User user) {
-        userService.add(user);
+    @PostMapping("/admin/users")
+    public String create(@ModelAttribute("addUser") User user, @RequestParam String role) {
+
+        userService.add(user, role);
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/userUpdate/{id}")
+    @GetMapping(value = "/admin/userUpdate/{id}")
     public String update(@PathVariable("id") long id, ModelMap model) {
         model.addAttribute("userUpdate", userService.getUser(id));
         return "userUpdate";
     }
 
-    @PostMapping("/userUpdate")
+    @PostMapping("/admin/userUpdate")
     public String update(@ModelAttribute("userUpdate") User user) {
         userService.updateUser(user);
         return "redirect:/admin/users";
     }
 
-    @GetMapping(value = "/deleteUser/{id}")
+    @GetMapping(value = "/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") long id) {
         userService.deleteUserById(id);
         return "redirect:/admin/users";
+    }
+
+    @GetMapping(value = "/user/{id}")
+    public String userPage(ModelMap model, @PathVariable("id") long id) {
+        model.addAttribute("user", userService.getUser(id));
+        return "user";
     }
 }

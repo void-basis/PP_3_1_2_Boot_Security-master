@@ -20,10 +20,14 @@
             <br>
             <label for="email">Enter Email: </label>
             <input type="text" th:field="*{email}" id="email"/>
+            <br>
+            <label for="password">Enter Password: </label>
+            <input type="text" th:field="*{password}" id="password"/>
+
             <label>Role:
-                <select size="2" multiple name="roles" >
-                    <option value="1">USER</option>
-                    <option selected="selected" value="2">ADMIN</option>
+                <select size="2" multiple name="role" >
+                    <option value="ROLE_USER">USER</option>
+                    <option selected="selected" value="ROLE_ADMIN">ADMIN</option>
                 </select>
             </label>
         </fieldset>
@@ -32,3 +36,4 @@
 </div>
 </body>
 </html>
+
