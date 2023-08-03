@@ -43,11 +43,6 @@ public class UserServiceImpl implements UserService {
         return dao.getUser(id);
     }
 
-//    @Override
-//    public User getUser(String name) {
-//        return dao.getUser;
-//    }
-
     @Override
     public void updateUser(User user) {
         dao.updateUser(user);
@@ -76,6 +71,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(User user, String role) {
+        if (role.equalsIgnoreCase("role_admin")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(3L));
+            user.setRoles(roles);
+        }
+        if (role.equalsIgnoreCase("role_user")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(2L));
+            user.setRoles(roles);
+        }
+        if (role.equalsIgnoreCase("role_user,role_admin")) {
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleDao.getById(3L));
+            roles.add(roleDao.getById(2L));
+            user.setRoles(roles);
+        }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        dao.updateUser(user);
+    }
+
+    @Override
     public void deleteUserById(long id) {
         dao.deleteUserById(id);
     }
@@ -94,8 +111,5 @@ public class UserServiceImpl implements UserService {
         }
         return new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRoles());
     }
-//    private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
-//        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toSet());
-//    }
 }
 

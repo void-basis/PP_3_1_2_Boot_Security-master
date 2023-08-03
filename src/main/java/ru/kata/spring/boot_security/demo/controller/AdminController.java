@@ -35,7 +35,6 @@ public class AdminController {
 
     @PostMapping("/admin/users")
     public String create(@ModelAttribute("addUser") User user, @RequestParam String role) {
-
         userService.add(user, role);
         return "redirect:/admin/users";
     }
@@ -47,8 +46,8 @@ public class AdminController {
     }
 
     @PostMapping("/admin/userUpdate")
-    public String update(@ModelAttribute("userUpdate") User user) {
-        userService.updateUser(user);
+    public String update(@ModelAttribute("userUpdate") User user, @RequestParam String role) {
+        userService.updateUser(user, role);
         return "redirect:/admin/users";
     }
 
