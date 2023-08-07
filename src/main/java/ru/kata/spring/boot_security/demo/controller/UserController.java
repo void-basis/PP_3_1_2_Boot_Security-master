@@ -27,4 +27,8 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping(value = "/login")
+    public String loginPage() {
+        return "login";
+    }
 }

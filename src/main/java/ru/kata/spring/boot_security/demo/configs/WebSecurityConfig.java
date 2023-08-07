@@ -28,10 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/**").permitAll()
-                .and().formLogin().successHandler(successUserHandler)
+                .and().formLogin().loginPage("/login")
+                //.usernameParameter("email").passwordParameter("password")
+                .successHandler(successUserHandler)
                 .permitAll()
                 .and()
-                .logout()
+                .logout().logoutSuccessUrl("/login")
                 .permitAll();
     }
     // кодируем пароль -можно без
